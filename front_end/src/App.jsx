@@ -85,7 +85,7 @@ function App() {
         {error && 
           <div className="error-message">
             <p>{error}</p>
-            <button onClick={() => setError(null)}>Dismiss</button>
+            <button onClick={() => setError(null)}>Dismiss!</button>
           </div>
         }
         
