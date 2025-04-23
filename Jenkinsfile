@@ -52,10 +52,28 @@ pipeline {
             steps {
                 sh 'docker pull ${ACR_LOGIN_SERVER}/${IMAGE_NAME_FRONTEND}'
                 sh 'docker pull ${ACR_LOGIN_SERVER}/${IMAGE_NAME_BACKEND}'
-                sh 'docker stop frontend backend || true'
-                sh 'docker rm -f frontend backend || true'
-                sh 'docker run -d --name frontend -p 8081:80 ${ACR_LOGIN_SERVER}/${IMAGE_NAME_FRONTEND}'
-                sh 'docker run -d --name backend -p 3000:3000 ${ACR_LOGIN_SERVER}/${IMAGE_NAME_BACKEND}'
+                
+                // List all containers (including stopped ones) to debug
+                sh 'docker ps -a'
+                
+                // Stop any container using the names we want (one at a time)
+                sh 'docker stop frontend || echo "No frontend container running"'
+                sh 'docker stop backend || echo "No backend container running"'
+                
+                // Remove any container with these names (one at a time)
+                sh 'docker rm -f frontend || echo "No frontend container to remove"'
+                sh 'docker rm -f backend || echo "No backend container to remove"'
+                
+                // Check what's using our ports
+                sh 'netstat -tuln | grep 9090 || echo "Port 9090 is free"'
+                sh 'netstat -tuln | grep 3001 || echo "Port 3001 is free"'
+                
+                // Run with less common ports
+                sh 'docker run -d --name frontend -p 9090:80 ${ACR_LOGIN_SERVER}/${IMAGE_NAME_FRONTEND}'
+                sh 'docker run -d --name backend -p 3001:3000 ${ACR_LOGIN_SERVER}/${IMAGE_NAME_BACKEND}'
+                
+                // Verify the containers are running
+                sh 'docker ps'
             }
         }
     }
