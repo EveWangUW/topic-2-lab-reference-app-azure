@@ -79,7 +79,7 @@ function App() {
         </div>
         
         {/* Loading overlay */}
-        {loading && <div className="loading-overlay">Loading data...</div>}
+        {loading && <div className="loading-overlay">Loading data!...</div>}
         
         {/* Error message overlay */}
         {error && 
