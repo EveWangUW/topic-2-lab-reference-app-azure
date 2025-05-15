@@ -54,8 +54,8 @@ pipeline {
                 sh 'docker pull ${ACR_LOGIN_SERVER}/${IMAGE_NAME_BACKEND}'
                 sh 'docker rm -f frontend || true'
                 sh 'docker rm -f backend || true'
-                sh 'docker run -d --name frontend -p 8080:80 ${ACR_LOGIN_SERVER}/${IMAGE_NAME_FRONTEND}'
-                sh 'docker run -d --name backend -p 3000:3000 ${ACR_LOGIN_SERVER}/${IMAGE_NAME_BACKEND}'
+                sh 'docker run -d --name frontend -p 9090:80 ${ACR_LOGIN_SERVER}/${IMAGE_NAME_FRONTEND}'
+                sh 'docker run -d --name backend -p 3031:3000 ${ACR_LOGIN_SERVER}/${IMAGE_NAME_BACKEND}'
             }
         }
     }
